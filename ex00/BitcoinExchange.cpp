@@ -1,6 +1,7 @@
 #include "BitcoinExchange.hpp"
 #include <fstream>
 #include <iostream>
+#include <climits>
 
 
 BitcoinExchange::BitcoinExchange(const std::string &filename) {
@@ -67,11 +68,21 @@ int BitcoinExchange::isValidDay(int year, int month, int day) {
 	return 1;
 }
 
+bool contain_digit(const std::string &line) {
+	
+	for (int i = 0; i < line.length(); i++) {
+		if (line[i] >= '0' && line[i] <= '9')
+			return true;
+	}
+	std::cout << "Error: bad input => " << line << std::endl;
+	return false;
+}
+
 int BitcoinExchange::validate_value(const std::string &line, int offset) {
 	char *endptr;
 	std::string value = line.substr(offset);
 	double d = strtod(value.c_str(), &endptr);
-	if (*endptr != '\0') {
+	if (*endptr != '\0' || !contain_digit(value)) {
 		return 0;
 	}
 	return 1;
