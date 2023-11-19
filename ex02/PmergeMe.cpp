@@ -105,9 +105,6 @@ bool PMergeMe::compareInt(int a, int b) {
 }
 
 void insert(numlist &main_chain, nodelist::iterator bound, nodelist &pending_chain, size_t steps) {
-	/* numlist::iterator pos =  std::upper_bound(main_chain.begin(), bound->main, bound->value, [steps](RandomAccessIterator a, RandomAccessIterator b) {
-				return a[steps -1] < b[steps -1];
-			}); */
 			numlist::iterator pos =  std::upper_bound(main_chain.begin(), bound->main, bound, compare); 
 			main_chain.insert(pos, bound->value);
 }
