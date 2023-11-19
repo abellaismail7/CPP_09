@@ -1,4 +1,8 @@
 #include "PmergeMe.hpp"
+#include <chrono>
+
+#include <ctime>
+
 
 int isNumber(char *str) {
 	int i = 0;
@@ -8,6 +12,14 @@ int isNumber(char *str) {
 		i++;
 	}
 	return 1;
+}
+
+void printVec(Vec &v, int max) {
+	for (int i = 0; i < v.size(); i++)
+		std::cout << v[i] << ' ';
+	if (max >= 0)
+		std::cout << max;
+	std::cout << '\n';
 }
 
 int main (int argc, char *argv[]) {
@@ -27,19 +39,24 @@ int main (int argc, char *argv[]) {
 			max_pos = i - 1;
 		v.push_back(a);
 	}
+	std::cout << "Before: ";
+	printVec(v, -1);
+
+  clock_t start_time = clock();
 	if (argc % 2 == 0) {
 		max = v[max_pos];
 		v[max_pos] = v[v.size() - 1];
 		v.pop_back();
 	}
+	else
+		max = -1;
 
 	PMergeMe p(v.begin(), v.end());
 	p.sort(1);
+  clock_t end_time = clock();
 
-	for (int i = 0; i < v.size(); i++){
-		std::cout << v[i] << '\n';
-	}
-	if (argc % 2 == 0)
-		std::cout << max << '\n';
+	std::cout << "After: ";
+	printVec(v, max);
+	std::cout << "Time: " << (double)(end_time - start_time) / CLOCKS_PER_SEC << "\n";
 	return 0;
 }
