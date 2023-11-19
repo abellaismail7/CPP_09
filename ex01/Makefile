@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -g
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 FILES = main.o RPN.o
 NAME = rpn
