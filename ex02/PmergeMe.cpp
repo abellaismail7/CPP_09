@@ -14,7 +14,7 @@ void PMergeMe::sort(size_t steps) {
 	if (count <= 1) {
 		return;
 	}
-	for (int i = 0; i < count; i+= steps * 2) {
+	for (int i = 0; i + steps < count * steps; i+= steps * 2) {
 		swap_ranges(start + i, steps);
 	}
 	
