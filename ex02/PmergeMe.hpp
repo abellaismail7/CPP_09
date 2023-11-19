@@ -9,23 +9,25 @@
 #include <iterator>
 #include <list>
 
-#define nodelist std::vector<node>
+#define nodelist std::vector<Node>
 
 #define Vec std::vector<int>
 #define RandomAccessIterator Vec::iterator 
 #define numlist std::list<RandomAccessIterator>
 
 
-struct node {
+struct Node {
 	RandomAccessIterator value;
 	numlist::iterator main;
-	size_t index;
+	size_t steps;
 };
 
 class PMergeMe {
 	RandomAccessIterator start;
 	RandomAccessIterator end;
+
 public:
+	static bool compareInt(int a, int b);
 	PMergeMe(RandomAccessIterator start, RandomAccessIterator end);
 	~PMergeMe();
 	void sort(size_t steps);
