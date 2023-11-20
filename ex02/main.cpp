@@ -1,8 +1,8 @@
 #include "PmergeMe.hpp"
 #include <chrono>
-
+#include <deque>
 #include <ctime>
-
+#include <vector>
 
 int isNumber(char *str) {
 	int i = 0;
@@ -22,19 +22,17 @@ void printVec(Vec &v, int max) {
 	std::cout << '\n';
 }
 
-int main (int argc, char *argv[]) {
-	int i = 1;
+int parse(std::vector<int> & v, char** values, int count) {
 	size_t max_pos = 0;
 	int max = 0;
-	Vec v;
-	v.reserve(argc);
+	v.reserve(count);
 
-	for (size_t i = 1; i < argc; i++) {
-		if (!isNumber(argv[i])) {
-			std::cout << "Invalid input " <<  argv[i] << "\n";
-			return 0;
+	for (size_t i = 0; i < count; i++) {
+		if (!isNumber(values[i])) {
+			std::cout << "Invalid input " <<  values[i] << "\n";
+			return -1;
 		}
-		int a = atoi(argv[i]);
+		int a = atoi(values[i]);
 		if (v[max_pos] < a)
 			max_pos = i - 1;
 		v.push_back(a);
@@ -42,21 +40,51 @@ int main (int argc, char *argv[]) {
 	std::cout << "Before: ";
 	printVec(v, -1);
 
-  clock_t start_time = clock();
-	if (argc % 2 == 0) {
+	if (count % 2 == 1) {
 		max = v[max_pos];
 		v[max_pos] = v[v.size() - 1];
 		v.pop_back();
 	}
 	else
 		max = -1;
+	return max;
+}
 
+double sortVec(std::vector<int> &v) {
+	clock_t start_time = clock();
 	PMergeMe p(v.begin(), v.end());
 	p.sort(1);
-  clock_t end_time = clock();
+	clock_t end_time = clock();
 
-	std::cout << "After: ";
+	std::deque<int> d(v.begin(), v.end());
+	return (double)(end_time - start_time) / (CLOCKS_PER_SEC / 1000000);
+}
+
+
+double sortDeq(std::deque<int> &d) {
+	clock_t start_time = clock();
+	PMergeMe p(d.begin(), d.end());
+	p.sort_deq(1);
+	clock_t end_time = clock();
+	return (double)(end_time - start_time) / (CLOCKS_PER_SEC/ 1000000);
+}
+
+int main (int argc, char *argv[]) {
+	Vec v;
+	if (argc < 2) {
+		std::cout << "No arguments\n";
+		return 0;
+	}
+
+	int max = parse(v, argv + 1, argc - 1);
+	
+	std::deque<int> d(v.begin(), v.end());
+	double time_vec = sortVec(v);
+	double time_deq = sortDeq(d);
+
+	std::cout << "After:  ";
 	printVec(v, max);
-	std::cout << "Time: " << (double)(end_time - start_time) / CLOCKS_PER_SEC << "\n";
+	std::cout << "Time to process a range of " << v.size() <<" elements with std::vector : " << time_vec << " µs \n";
+	std::cout << "Time to process a range of " << v.size() <<" elements with std::deque  : " << time_deq << " µs \n";
 	return 0;
 }
