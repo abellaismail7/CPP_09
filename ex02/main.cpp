@@ -34,7 +34,7 @@ int parse(std::vector<int> & v, char** values, int count) {
 		}
 		int a = atoi(values[i]);
 		if (v[max_pos] < a)
-			max_pos = i - 1;
+			max_pos = i;
 		v.push_back(a);
 	}
 	std::cout << "Before: ";
