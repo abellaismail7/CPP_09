@@ -127,7 +127,7 @@ int BitcoinExchange::validate_line(const std::string &line, double &value, std::
 	}
 	std::string svalue = line.substr(13);
 	value = strtod(svalue.c_str(), NULL);
-	if (svalue.length() > 10 || value > 1000) {
+	if (value > 1000) {
 		std::cout << "Error: too large a number." << std::endl;
 		return 0;
 	}
