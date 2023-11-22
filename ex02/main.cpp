@@ -87,7 +87,7 @@ int main (int argc, char *argv[]) {
 
 	std::cout << "After:  ";
 	printVec(v, max);
-	std::cout << "Time to process a range of " << v.size() <<" elements with std::vector : " << time_vec << " µs \n";
-	std::cout << "Time to process a range of " << v.size() <<" elements with std::deque  : " << time_deq << " µs \n";
+	std::cout << "Time to process a range of " << v.size() <<" elements with std::vector : " << std::fixed << time_vec << " µs \n";
+	std::cout << "Time to process a range of " << v.size() <<" elements with std::deque  : " << std::fixed << time_deq << " µs \n";
 	return 0;
 }
