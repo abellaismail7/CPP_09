@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "BitcoinExchange.hpp"
 
 int main (int argc, char *argv[]) {
@@ -8,19 +9,25 @@ int main (int argc, char *argv[]) {
 	}
 	std::string line;
 
-	char *filename = argv[1];
-	BitcoinExchange be(filename);
+	BitcoinExchange be("data.csv");
 	if (!be.feed())
 		return 1;
-	if (!be.validate_header(std::cin, "date | value"))
+
+	
+	std::ifstream file;
+	file.open(argv[1]);
+	if (!file.is_open()) {
+		std::cout << "Error: could not open file." << std::endl;
+		return 0;
+	}
+
+	if (!be.validate_header(file, "date | value"))
 		return 1;
-
-
-	while (getline(std::cin, line)) {
+	while (getline(file, line)) {
 		double value;
 		double rate;
 		std::string date;
-		if(!be.validate_line(line, " | ", value, date)){
+		if(!be.validate_line(line, value, date)){
 			continue;
 		}
 		if (!be.lookup(date, rate)) {

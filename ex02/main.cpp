@@ -1,5 +1,6 @@
 #include "PmergeMe.hpp"
 #include <chrono>
+#include <cstdlib>
 #include <deque>
 #include <ctime>
 #include <vector>
@@ -77,6 +78,8 @@ int main (int argc, char *argv[]) {
 	}
 
 	int max = parse(v, argv + 1, argc - 1);
+	if (max == -1)
+		return 1;
 	
 	std::deque<int> d(v.begin(), v.end());
 	double time_vec = sortVec(v);

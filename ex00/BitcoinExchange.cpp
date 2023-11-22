@@ -25,6 +25,10 @@ int BitcoinExchange::feed() {
 			return 0;
 		}
 		double value = strtod(line.substr(11).c_str(), NULL);
+		if(value < 0){
+			std::cout << "Error: not a positive number." << std::endl;
+			return 0;
+		}
 		std::string date = line.substr(0, 10);
 		data[date] = value;
 	}
@@ -70,18 +74,17 @@ int BitcoinExchange::isValidDay(int year, int month, int day) {
 
 bool contain_digit(const std::string &line) {
 	
-	for (int i = 0; i < line.length(); i++) {
+	for (size_t i = 0; i < line.length(); i++) {
 		if (line[i] >= '0' && line[i] <= '9')
 			return true;
 	}
-	std::cout << "Error: bad input => " << line << std::endl;
 	return false;
 }
 
 int BitcoinExchange::validate_value(const std::string &line, int offset) {
 	char *endptr;
 	std::string value = line.substr(offset);
-	double d = strtod(value.c_str(), &endptr);
+	strtod(value.c_str(), &endptr);
 	if (*endptr != '\0' || !contain_digit(value)) {
 		return 0;
 	}
@@ -89,7 +92,7 @@ int BitcoinExchange::validate_value(const std::string &line, int offset) {
 }
 
 int BitcoinExchange::_validate_line(const std::string &line, const std::string &sep) {
-	int pos = line.find(sep);
+	size_t pos = line.find(sep);
 	if (pos == std::string::npos) {
 		return 0;
 	}
@@ -104,15 +107,14 @@ int BitcoinExchange::_validate_line(const std::string &line, const std::string &
 
 int BitcoinExchange::validate_header(std::istream &file, const std::string &header) {
 	std::string line;
-	getline(file, line);
-	if (line != header) {
+	if (!getline(file, line) || line != header) {
 		std::cout << "Error: invalid file format" << std::endl;
 		return 0;
 	}
 	return 1;
 }
 
-int BitcoinExchange::validate_line(const std::string &line, const std::string &sep, double &value, std::string &date) {
+int BitcoinExchange::validate_line(const std::string &line, double &value, std::string &date) {
 	if (!_validate_line(line, " | "))
 	{
 		std::cout << "Error: invalid line" << std::endl;
@@ -137,10 +139,12 @@ int BitcoinExchange::validate_line(const std::string &line, const std::string &s
 }
 
 int BitcoinExchange::lookup(const std::string &date, double &rate) {
-	if (data.find(date) == data.end()) {
+	std::map<std::string, double>::iterator it;
+	it = data.lower_bound(date);
+	if (it == data.end()) {
 		return 0;
 	}
-	rate = data[date];
+	rate = it->second;
 	return 1;
 }
 
