@@ -55,7 +55,7 @@ int BitcoinExchange::validate_date(const std::string &line) {
 		goto Error;
 	return 1;
 	Error:
-		std::cout << "Error: bad input => " << line << std::endl;
+		//std::cout << "Error: bad input => " << line << std::endl;
 		return 0;
 }
 
