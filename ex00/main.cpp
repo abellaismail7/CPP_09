@@ -24,6 +24,7 @@ int main (int argc, char *argv[]) {
 	if (!be.validate_header(file, "date | value"))
 		return 1;
 	while (getline(file, line)) {
+		if (line.empty()) continue;
 		double value;
 		double rate;
 		std::string date;

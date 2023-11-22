@@ -20,6 +20,7 @@ int BitcoinExchange::feed() {
 		return 0;
 	}
 	while (getline(file, line)) {
+		if (line.empty()) continue;
 		if(!_validate_line(line, ",")){
 			std::cout << "Error: bad input => " << line << std::endl;
 			return 0;
