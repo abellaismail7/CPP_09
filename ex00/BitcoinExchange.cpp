@@ -122,7 +122,7 @@ int BitcoinExchange::validate_line(const std::string &line, double &value, std::
 	}
 	date = line.substr(0, 10);
 	if (!validate_date(date)) {
-		std::cout << "Error: invalid date" << std::endl;
+		//std::cout << "Error: invalid date" << std::endl;
 		return 0;
 	}
 	std::string svalue = line.substr(13);
@@ -135,6 +135,11 @@ int BitcoinExchange::validate_line(const std::string &line, double &value, std::
 		std::cout << "Error: not a positive number." << std::endl;
 		return 0;
 	}
+	if (value > 1000)
+	{
+		std::cout << "Error: too large a number." << std::endl;
+	}
+
 	return 1;
 }
 
