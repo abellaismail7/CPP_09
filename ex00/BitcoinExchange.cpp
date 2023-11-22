@@ -21,7 +21,7 @@ int BitcoinExchange::feed() {
 	}
 	while (getline(file, line)) {
 		if(!_validate_line(line, ",")){
-			std::cout << "Error: invalid line" << std::endl;
+			std::cout << "Error: bad input " << line << std::endl;
 			return 0;
 		}
 		double value = strtod(line.substr(11).c_str(), NULL);
@@ -117,7 +117,7 @@ int BitcoinExchange::validate_header(std::istream &file, const std::string &head
 int BitcoinExchange::validate_line(const std::string &line, double &value, std::string &date) {
 	if (!_validate_line(line, " | "))
 	{
-		std::cout << "Error: invalid line" << std::endl;
+		std::cout << "Error: bad input " <<  line << std::endl;
 		return 0;
 	}
 	date = line.substr(0, 10);
