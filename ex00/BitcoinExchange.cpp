@@ -60,13 +60,21 @@ int BitcoinExchange::validate_date(const std::string &line) {
 		return 0;
 }
 
+bool isLeapYear(int year) {
+	if (year % 100 == 0 && year % 400 != 0)
+		return false;
+	if (year % 4 == 0) {
+		return true;	
+	}
+	return false;
+}
 
 int BitcoinExchange::isValidDay(int year, int month, int day) {
 	if (day > 31 || month > 12)
 		return 0;
-	if (month == 2 && year % 4 == 0 && day > 29)
+	if (month == 2 && isLeapYear(year) && day > 29)
 		return 0;
-	if (month == 2 && year % 4 != 0 && day > 28)
+	if (month == 2 && !isLeapYear(year) && day > 28)
 		return 0;
 	if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)
 		return 0;
