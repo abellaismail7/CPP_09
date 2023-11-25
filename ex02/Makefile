@@ -1,6 +1,6 @@
 CC = c++
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g
 
 BUILD_DIR = build
 
@@ -13,7 +13,7 @@ BIN = PmergeMe
 all: $(BIN)
 
 $(BIN): $(OBJ)
-	$(CC) $^ -o $@
+	$(CC) $^ -fsanitize=address -o $@
 
 $(BUILD_DIR)/%.o: %.cpp PmergeMe.hpp
 	mkdir -p $(@D)

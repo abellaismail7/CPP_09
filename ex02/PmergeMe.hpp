@@ -51,10 +51,11 @@ public:
 
 int count_by_steps(RandomAccessIterator start, RandomAccessIterator end, size_t steps);
 void swap_ranges(RandomAccessIterator start, int steps);
-void insert(numlist &main_chain, nodelist::iterator bound, nodelist &pending_chain, size_t steps);
 size_t jacob(int i);
 
 int count_by_steps_deq(RandomAccessIteratorDeq start, RandomAccessIteratorDeq end, size_t steps);
 void swap_ranges_deq(RandomAccessIteratorDeq start, int steps);
-void insert_deq(numlistdeq &main_chain, nodelistdeq::iterator bound, nodelistdeq &pending_chain, size_t steps);
+
+void insert_deq(numlistdeq &main_chain, nodelistdeq::iterator bound);
+void insert(numlist &main_chain, nodelist::iterator bound);
 

@@ -56,7 +56,7 @@ void PMergeMe::sort_deq(size_t steps) {
 		}
 		nodelistdeq::iterator bound = pending_chain.begin() + dist;
 		while (true) {
-			insert_deq(main_chain, bound, steps);
+			insert_deq(main_chain, bound );
 			pending_chain.erase(bound);
 			if (bound == pending_chain.begin())
 				break;
@@ -67,15 +67,19 @@ void PMergeMe::sort_deq(size_t steps) {
 
 	while (pending_chain.size() > 0) {
 		nodelistdeq::iterator it = pending_chain.begin();
-		insert_deq(main_chain, it, pending_chain, steps);
+		insert_deq(main_chain, it);
 		pending_chain.erase(it);
 	}
 
 	std::vector<int> temp;
 	temp.reserve(count * steps);
+	size_t k = 0;
 	for (numlistdeq::iterator it = main_chain.begin(); it != main_chain.end(); it++) {
+		if (k >= count * steps)
+			break;
 		for (size_t i = 0; i < steps; i++)
 			temp.push_back((*it)[i]);
+		k += steps;
 	}
 
 	std::copy(temp.begin(), temp.end(), start_deq);
@@ -121,7 +125,7 @@ void PMergeMe::sort(size_t steps) {
 		}
 		nodelist::iterator bound = pending_chain.begin() + dist;
 		while (true) {
-			insert(main_chain, bound, pending_chain, steps);
+			insert(main_chain, bound);
 			pending_chain.erase(bound);
 			if (bound == pending_chain.begin())
 				break;
@@ -132,15 +136,19 @@ void PMergeMe::sort(size_t steps) {
 
 	while (pending_chain.size() > 0) {
 		nodelist::iterator it = pending_chain.begin();
-		insert(main_chain, it, pending_chain, steps);
+		insert(main_chain, it);
 		pending_chain.erase(it);
 	}
 
 	std::vector<int> temp;
 	temp.reserve(count * steps);
+	size_t k = 0;
 	for (numlist::iterator it = main_chain.begin(); it != main_chain.end(); it++) {
+		if (k >= count * steps)
+			break;
 		for (size_t i = 0; i < steps; i++)
 			temp.push_back((*it)[i]);
+		k += steps;
 	}
 
 	std::copy(temp.begin(), temp.end(), start);
@@ -196,13 +204,13 @@ bool PMergeMe::compareInt(int a, int b) {
 	return a < b;
 }
 
-void insert(numlist &main_chain, nodelist::iterator bound, size_t steps) {
+void insert(numlist &main_chain, nodelist::iterator bound) {
 			numlist::iterator pos =  std::upper_bound(main_chain.begin(), bound->main, bound, compare); 
 			main_chain.insert(pos, bound->value);
 }
 
 
-void insert_deq(numlistdeq &main_chain, nodelistdeq::iterator bound, size_t steps) {
+void insert_deq(numlistdeq &main_chain, nodelistdeq::iterator bound) {
 			numlistdeq::iterator pos =  std::upper_bound(main_chain.begin(), bound->main, bound, compare_deq); 
 			main_chain.insert(pos, bound->value);
 }

@@ -7,6 +7,11 @@
 
 int isNumber(char *str) {
 	int i = 0;
+
+	if (strlen(str) > 10)
+		return 0;
+	if (atol(str) > INT_MAX)
+		return 0;
 	while (str[i] != '\0') {
 		if (str[i] < '0' || str[i] > '9')
 			return 0;
@@ -30,11 +35,11 @@ int parse(std::vector<int> & v, char** values, size_t count) {
 
 	for (size_t i = 0; i < count; i++) {
 		if (!isNumber(values[i])) {
-			std::cout << "Invalid input " <<  values[i] << "\n";
-			return -1;
+			std::cout << "Error" << "\n";
+			return -2;
 		}
 		int a = atoi(values[i]);
-		if (v[max_pos] < a)
+		if (i == 0 || v[max_pos] < a)
 			max_pos = i;
 		v.push_back(a);
 	}
@@ -58,16 +63,15 @@ double sortVec(std::vector<int> &v) {
 	clock_t end_time = clock();
 
 	std::deque<int> d(v.begin(), v.end());
-	return (double)(end_time - start_time) / (CLOCKS_PER_SEC / 1000000);
+	return (end_time - start_time) / (CLOCKS_PER_SEC / (double) 1000000);
 }
-
 
 double sortDeq(std::deque<int> &d) {
 	clock_t start_time = clock();
 	PMergeMe p(d.begin(), d.end());
 	p.sort_deq(1);
 	clock_t end_time = clock();
-	return (double)(end_time - start_time) / (CLOCKS_PER_SEC/ 1000000);
+	return (end_time - start_time) / (CLOCKS_PER_SEC/ (double) 1000000);
 }
 
 int main (int argc, char *argv[]) {
@@ -78,7 +82,7 @@ int main (int argc, char *argv[]) {
 	}
 
 	int max = parse(v, argv + 1, argc - 1);
-	if (max == -1)
+	if (max == -2)
 		return 1;
 	
 	std::deque<int> d(v.begin(), v.end());
