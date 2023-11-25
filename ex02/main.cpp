@@ -16,14 +16,14 @@ int isNumber(char *str) {
 }
 
 void printVec(Vec &v, int max) {
-	for (int i = 0; i < v.size(); i++)
+	for (size_t i = 0; i < v.size(); i++)
 		std::cout << v[i] << ' ';
 	if (max >= 0)
 		std::cout << max;
 	std::cout << '\n';
 }
 
-int parse(std::vector<int> & v, char** values, int count) {
+int parse(std::vector<int> & v, char** values, size_t count) {
 	size_t max_pos = 0;
 	int max = 0;
 	v.reserve(count);

@@ -1,23 +1,30 @@
 CC = c++
+
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-FILES = main.o PmergeMe.o
-NAME = PmergeMe
+BUILD_DIR = build
 
+FILES = main PmergeMe
 
-all: $(NAME)
+OBJ = $(addprefix $(BUILD_DIR)/, $(FILES:=.o))
 
-$(NAME): $(FILES)
-	$(CC) $(FILES) -o $(NAME)
+BIN = PmergeMe
 
+all: $(BIN)
 
-%.o: %.c PmergeMe.hpp
+$(BIN): $(OBJ)
+	$(CC) $^ -o $@
+
+$(BUILD_DIR)/%.o: %.cpp PmergeMe.hpp
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(FILES)
+	rm -rf $(BUILD_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(BIN)
 
 re: fclean all
+
+.PHONY: all clean fclean re

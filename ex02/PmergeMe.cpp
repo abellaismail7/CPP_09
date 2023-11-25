@@ -56,7 +56,7 @@ void PMergeMe::sort_deq(size_t steps) {
 		}
 		nodelistdeq::iterator bound = pending_chain.begin() + dist;
 		while (true) {
-			insert_deq(main_chain, bound, pending_chain, steps);
+			insert_deq(main_chain, bound, steps);
 			pending_chain.erase(bound);
 			if (bound == pending_chain.begin())
 				break;
@@ -74,7 +74,7 @@ void PMergeMe::sort_deq(size_t steps) {
 	std::vector<int> temp;
 	temp.reserve(count * steps);
 	for (numlistdeq::iterator it = main_chain.begin(); it != main_chain.end(); it++) {
-		for (int i = 0; i < steps; i++)
+		for (size_t i = 0; i < steps; i++)
 			temp.push_back((*it)[i]);
 	}
 
@@ -139,7 +139,7 @@ void PMergeMe::sort(size_t steps) {
 	std::vector<int> temp;
 	temp.reserve(count * steps);
 	for (numlist::iterator it = main_chain.begin(); it != main_chain.end(); it++) {
-		for (int i = 0; i < steps; i++)
+		for (size_t i = 0; i < steps; i++)
 			temp.push_back((*it)[i]);
 	}
 
@@ -196,13 +196,13 @@ bool PMergeMe::compareInt(int a, int b) {
 	return a < b;
 }
 
-void insert(numlist &main_chain, nodelist::iterator bound, nodelist &pending_chain, size_t steps) {
+void insert(numlist &main_chain, nodelist::iterator bound, size_t steps) {
 			numlist::iterator pos =  std::upper_bound(main_chain.begin(), bound->main, bound, compare); 
 			main_chain.insert(pos, bound->value);
 }
 
 
-void insert_deq(numlistdeq &main_chain, nodelistdeq::iterator bound, nodelistdeq &pending_chain, size_t steps) {
+void insert_deq(numlistdeq &main_chain, nodelistdeq::iterator bound, size_t steps) {
 			numlistdeq::iterator pos =  std::upper_bound(main_chain.begin(), bound->main, bound, compare_deq); 
 			main_chain.insert(pos, bound->value);
 }

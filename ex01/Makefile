@@ -1,23 +1,30 @@
 CC = c++
+
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-FILES = main.o RPN.o
-NAME = rpn
+BUILD_DIR = build
 
+FILES = main RPN 
 
-all: $(NAME)
+OBJ = $(addprefix $(BUILD_DIR)/, $(FILES:=.o))
 
-$(NAME): $(FILES)
-	$(CC) $(FILES) -o $(NAME)
+BIN = btc
 
+all: $(BIN)
 
-%.o: %.c RPN.hpp
+$(BIN): $(OBJ)
+	$(CC) $^ -o $@
+
+$(BUILD_DIR)/%.o: %.cpp RPN.hpp
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(FILES)
+	rm -rf $(BUILD_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(BIN)
 
 re: fclean all
+
+.PHONY: all clean fclean re

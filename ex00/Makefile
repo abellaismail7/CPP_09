@@ -1,6 +1,6 @@
 CC = c++
 
-CFLAGS = -g -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 BUILD_DIR = build
 
